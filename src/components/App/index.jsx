@@ -14,9 +14,11 @@ const App = () => {
         <Switch>
           {navLinks.map(({ path, component }) => {
             if (path === "/") {
-              return <Route exact path="/" key={path} component={component} />;
+              return (
+                <Route exact path={path} key={path} component={component} />
+              );
             } else {
-              return <Route path="/upload" key={path} component={component} />;
+              return <Route path={path} key={path} component={component} />;
             }
           })}
         </Switch>

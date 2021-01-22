@@ -1,18 +1,16 @@
 import { makeStyles } from "@material-ui/core/styles";
-import { 
-  Card, 
-  CardHeader, 
-  CardMedia, 
-  CardActions, 
-  IconButton,
-  Tooltip
+import {
+  Card,
+  CardHeader,
+  CardMedia,
+  CardActions,
+  Tooltip,
 } from "@material-ui/core";
 
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ThumbUpIcon from "@material-ui/icons/ThumbUp";
 import ThumbDownIcon from "@material-ui/icons/ThumbDown";
 import { useDispatch, useSelector } from "react-redux";
-
 
 import * as TheCatAPI from "../../api";
 import {
@@ -77,12 +75,11 @@ const CatCard = (props) => {
       return (
         <Tooltip title="Un-Favourite Image" aria-label="unFavourite">
           <div>
-            <IconButton
+            <FavoriteIcon
               className={classes.unFavourite}
               onClick={() => deleteFavourite()}
-            >
-              <FavoriteIcon />
-            </IconButton>
+            />
+            &nbsp;&nbsp;
           </div>
         </Tooltip>
       );
@@ -90,52 +87,50 @@ const CatCard = (props) => {
       return (
         <Tooltip title="Favourite Image" aria-label="Favourite">
           <div>
-            <IconButton
-              className={classes.favourite}
-              onClick={() => saveFavourite()}
-            >
-              <FavoriteIcon />
-            </IconButton>
+            <FavoriteIcon onClick={() => saveFavourite()} />
+            &nbsp;&nbsp;
           </div>
         </Tooltip>
       );
     }
   };
 
+  const renderVoteUp = () => (
+    <Tooltip title="Vote Up" aria-label="voteUp">
+      <div>
+        <ThumbUpIcon className={classes.voteUp} onClick={() => voteUp()} />
+        &nbsp;{votesUp}
+      </div>
+    </Tooltip>
+  );
+
+  const renderVoteDown = () => (
+    <Tooltip title="Vote Down" aria-label="voteDown">
+      <div>
+        <ThumbDownIcon
+          className={classes.voteDown}
+          onClick={() => voteDown()}
+        />
+        &nbsp;{votesDown}
+      </div>
+    </Tooltip>
+  );
+
+  const addGridItem = (content) => (
+    <Grid item xs={false} sm={4} container direction="row" alignItems="center">
+      {content}
+    </Grid>
+  );
+
   return (
     <Card>
-      <CardHeader
-        subheader={`Score: ${score}`}
-        className={classes.header}
-      />
+      <CardHeader subheader={`Score: ${score}`} className={classes.header} />
       <CardMedia className={classes.media} image={image.url} />
       <CardActions>
         <Grid container>
-          <Grid item sm={4} container direction="row" alignItems="center">
-            {renderFavUnFavBtn()}
-          </Grid>
-          <Grid item sm={4} container direction="row" alignItems="center">
-            <Tooltip title="Vote Up" aria-label="voteUp">
-              <div>
-                <ThumbUpIcon
-                  className={classes.voteUp}
-                  onClick={() => voteUp()}
-                />
-                &nbsp;{votesUp}
-              </div>
-            </Tooltip>
-          </Grid>
-          <Grid item sm={4} container direction="row" alignItems="center">
-            <Tooltip title="Vote Down" aria-label="voteDown">
-              <div>
-                <ThumbDownIcon
-                  className={classes.voteDown}
-                  onClick={() => voteDown()}
-                />
-                &nbsp;{votesDown}
-              </div>
-            </Tooltip>
-          </Grid>
+          {addGridItem(renderFavUnFavBtn())}
+          {addGridItem(renderVoteUp())}
+          {addGridItem(renderVoteDown())}
         </Grid>
       </CardActions>
     </Card>
