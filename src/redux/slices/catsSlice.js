@@ -1,16 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export const initialState = {
+  isLoading: false,
+  redirect: false,
+  error: undefined,
+  images: [],
+  favourites: [],
+  votes: [],
+  pagination_count: 0,
+};
+
 export const cats = createSlice({
   name: "cats",
-  initialState: {
-    isLoading: false,
-    redirect: false,
-    error: undefined,
-    images: [],
-    favourites: [],
-    votes: [],
-    pagination_count: 0,
-  },
+  initialState,
   reducers: {
     setLoading: (state, action) => {
       state.isLoading = action.payload;
@@ -37,8 +39,8 @@ export const cats = createSlice({
       state.redirect = false;
       state.isLoading = false;
     },
-    setRedirect: (state) => {
-      state.redirect = true;
+    setRedirect: (state, action) => {
+      state.redirect = action.payload;
       state.isLoading = false;
     },
   },
@@ -53,27 +55,22 @@ export const {
   setRedirect,
 } = cats.actions;
 
-const reducerName = "catsReducer";
+export default cats.reducer;
 
-export const selectImages = (state) => state[reducerName].images;
-export const selectLoading = (state) => state[reducerName].isLoading;
-export const selectError = (state) => state[reducerName].error;
-export const selectRedirect = (state) => state[reducerName].redirect;
-export const selectPaginationCount = (state) =>
-  state[reducerName].pagination_count;
+export const selectImages = (state) => state.cats.images;
+export const selectLoading = (state) => state.cats.isLoading;
+export const selectError = (state) => state.cats.error;
+export const selectRedirect = (state) => state.cats.redirect;
+export const selectPaginationCount = (state) => state.cats.pagination_count;
 
 export const selectFavouriteById = (state, imageId) =>
-  state[reducerName].favourites.find(
-    (favourite) => favourite.image_id === imageId
-  );
+  state.cats.favourites.find((favourite) => favourite.image_id === imageId);
 
 export const selectVotesUpById = (state, imageId) =>
-  state.catsReducer.votes.filter(
+  state.cats.votes.filter(
     (vote) => vote.image_id === imageId && vote.value === 1
   ).length;
 export const selectVotesDownById = (state, imageId) =>
-  state.catsReducer.votes.filter(
+  state.cats.votes.filter(
     (vote) => vote.image_id === imageId && vote.value === 0
   ).length;
-
-export default cats.reducer;

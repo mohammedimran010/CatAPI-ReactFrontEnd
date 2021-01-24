@@ -8,10 +8,11 @@ import {
   setRedirect,
 } from "../redux/slices/catsSlice";
 
-const IMAGES_ENDPOINT = process.env.REACT_APP_CAT_APP_IMAGES_ENDPOINT;
-const UPLOAD_ENDPOINT = process.env.REACT_APP_CAT_APP_UPLOAD_ENDPOINT;
-const FAVOURITES_ENDPOINT = process.env.REACT_APP_CAT_APP_FAVOURITES_ENDPOINT;
-const VOTES_ENDPOINT = process.env.REACT_APP_CAT_APP_VOTES_ENDPOINT;
+export const IMAGES_ENDPOINT = process.env.REACT_APP_CAT_APP_IMAGES_ENDPOINT;
+export const UPLOAD_ENDPOINT = process.env.REACT_APP_CAT_APP_UPLOAD_ENDPOINT;
+export const FAVOURITES_ENDPOINT =
+  process.env.REACT_APP_CAT_APP_FAVOURITES_ENDPOINT;
+export const VOTES_ENDPOINT = process.env.REACT_APP_CAT_APP_VOTES_ENDPOINT;
 
 const config = {
   headers: {
@@ -33,8 +34,8 @@ export const getImages = (page, limit, orderBy) => async (dispatch) => {
       pagination_count,
     };
     dispatch(setImages(data));
-    dispatch(getFavourites());
-    dispatch(getVotes());
+    await dispatch(getFavourites());
+    await dispatch(getVotes());
   } catch (err) {
     dispatch(setError(err.response.data.message));
   }
@@ -55,7 +56,7 @@ const getVotes = () => async (dispatch) => {
   dispatch(setLoading(true));
 
   try {
-    const response = await axios.get(VOTES_ENDPOINT, config);
+    const response = await axios.get(`${VOTES_ENDPOINT}?limit=300`, config);
     dispatch(setVotes(await response.data));
   } catch (err) {
     dispatch(setError(err.response.data.message));
@@ -67,7 +68,7 @@ export const saveFavourite = (selectedImage) => async (dispatch) => {
 
   try {
     await axios.post(FAVOURITES_ENDPOINT, { image_id: selectedImage }, config);
-    dispatch(getFavourites());
+    await dispatch(getFavourites());
   } catch (err) {
     dispatch(setError(err.response.data.message));
   }
@@ -78,7 +79,7 @@ export const deleteFavourite = (selectedImage) => async (dispatch) => {
 
   try {
     await axios.delete(`${FAVOURITES_ENDPOINT}/${selectedImage}`, config);
-    dispatch(getFavourites());
+    await dispatch(getFavourites());
   } catch (err) {
     dispatch(setError(err.response.data.message));
   }
@@ -93,7 +94,7 @@ export const toggleVote = (selectedImage, value) => async (dispatch) => {
       { image_id: selectedImage, value },
       config
     );
-    dispatch(getVotes());
+    await dispatch(getVotes());
   } catch (err) {
     dispatch(setError(err.response.data.message));
   }
