@@ -14,7 +14,7 @@ const Header = () => {
               <IconButton
                 color="inherit"
                 edge="start"
-                aria-label="home"
+                aria-label="Home"
                 component={Link}
                 to={path}
                 key={path}

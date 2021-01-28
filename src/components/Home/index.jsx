@@ -98,8 +98,8 @@ const Home = () => {
                 <FormControl>
                   <InputLabel id="page-select-label">Page</InputLabel>
                   <Select
+                    data-testid="page-select-label"
                     labelId="page-select-label"
-                    id="page-select-label"
                     value={page}
                     onChange={handlePageChange}
                   >
@@ -112,8 +112,8 @@ const Home = () => {
               <FormControl>
                 <InputLabel id="images-select-label">Images</InputLabel>
                 <Select
+                  data-testid="images-select-label"
                   labelId="images-select-label"
-                  id="images-select-label"
                   value={limit}
                   onChange={handleNoOfImagesChange}
                 >
@@ -125,6 +125,7 @@ const Home = () => {
               <FormControl>
                 <InputLabel id="order-select-label">Order</InputLabel>
                 <Select
+                  data-testid="order-select-label"
                   labelId="order-select-label"
                   id="order-select-label"
                   value={orderBy}

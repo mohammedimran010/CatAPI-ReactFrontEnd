@@ -66,20 +66,25 @@
     "redux-mock-store": "^1.5.4"
   },
   "jest": {
+    "transformIgnorePatterns": [
+      "src/index.js"
+    ],
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,ts,tsx}"
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 90,
-        "functions": 90,
+        "branches": 89,
+        "functions": 80,
         "lines": 90,
         "statements": 90
       }
     },
     "coverageReporters": [
-      "text",
       "html"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/src/index.js"
     ]
   }
 }
